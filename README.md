@@ -4,7 +4,7 @@ Access G2 Product, Vendor, Review, and User Data via API
 
 [Website](https://g2scraper.com)
 
-[Click here for RapidAPI listing](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2)
+[RapidAPI listing](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2)
 
 <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" />
 
