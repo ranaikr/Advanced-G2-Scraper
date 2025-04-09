@@ -1,6 +1,6 @@
-# G2 Scraper API 🚀 [RapidAPI](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2/pricing)
+# G2 Scraper API 🚀
 
-Access G2 Product, Vendor, Review, and User Data via API
+Access G2 Product, Vendor, Review, and User Data via API [Click here for RapidAPI listing](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2/pricing)
 
 <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" />
 
