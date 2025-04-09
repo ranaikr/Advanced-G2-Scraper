@@ -1,0 +1,1462 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "G2 Scraper API",
+    "description": "API for accessing scraped G2 data including products, vendors, reviews, and users.",
+    "contact": {
+      "name": "G2 Scraper",
+      "url": "https://g2scraper.com",
+      "email": "contact@g2scraper.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://g2scraper.com/license"
+    },
+    "version": "v1",
+    "x-logo": {
+      "url": "https://g2scraper.com/logo.png",
+      "altText": "G2 Scraper Logo",
+      "backgroundColor": "#FFFFFF",
+      "href": "https://g2scraper.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://g2-products-reviews-users2.p.rapidapi.com",
+      "description": "RapidAPI Production Server"
+    }
+  ],
+  "paths": {
+    "/autocomplete": {
+      "get": {
+        "tags": [
+          "autocomplete"
+        ],
+        "summary": "Autocomplete vendors, products, categories",
+        "parameters": [
+          {
+            "name": "Query",
+            "in": "query",
+            "description": "The query you want to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Goog"
+            },
+            "example": "Goog"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutocompleteResponseApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{slug}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Product info by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "The unique slug identifier for the product on G2",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "slack"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the product information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{slug}/competitors": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Competitor info by product slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "The unique slug identifier for the product on G2",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "slack"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDtoArrayApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}/reviews": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Product reviews by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier for the product on G2",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": "825"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number for pagination (1-based), defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": "1"
+          },
+          {
+            "name": "starRating",
+            "in": "query",
+            "description": "Optional filter to only include reviews with this star rating (1-5), defaults to null",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": "5"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "Optional sort order for the reviews (g2_default, most_recent, most_helpful, highest_rated, lowest_rated), defaults to g2_default",
+            "schema": {
+              "type": "string"
+            },
+            "example": "most_recent"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the product reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponseDtoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendor/{slug}": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Vendor info by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "The vendors slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "google"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the vendor information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendor/{slug}/products": {
+      "get": {
+        "tags": [
+          "vendor"
+        ],
+        "summary": "Vendor products by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "The unique slug identifier for the vendor on G2",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "google"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number for pagination (1-based)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the vendor's products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDtoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User info by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier for the user on G2",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}/products": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User products by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the user's products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProductDtoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}/reviews": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User reviews by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number for pagination (1-based)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the user's reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponseDtoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AutocompleteResponse": {
+        "required": [
+          "query"
+        ],
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductAutocompleteResponseDto"
+            },
+            "nullable": true
+          },
+          "vendors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VendorAutocompleteResponseDto"
+            },
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryAutocompleteResponseDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AutocompleteResponseApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AutocompleteResponse"
+              }
+            ],
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoryAutocompleteResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ProblemDetails"
+          }
+        ],
+        "properties": {
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ProblemDetails": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "ProductAutocompleteResponseDto": {
+        "required": [
+          "averageRating",
+          "description",
+          "g2Rating",
+          "id",
+          "name",
+          "numReviews",
+          "slug",
+          "tags",
+          "thumbImageUrl",
+          "type",
+          "vendorName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "vendorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "g2Rating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "averageRating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "numReviews": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "thumbImageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDto": {
+        "required": [
+          "description",
+          "id",
+          "lastUpdated",
+          "name",
+          "numReviews",
+          "slug",
+          "thumbImageUrl",
+          "vendorId",
+          "vendorSlug"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the product on G2",
+            "format": "int32",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the product",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the product",
+            "nullable": true
+          },
+          "vendorId": {
+            "type": "integer",
+            "description": "Unique identifier for the vendor that owns this product",
+            "format": "int32",
+            "nullable": true
+          },
+          "vendorSlug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the vendor",
+            "nullable": true
+          },
+          "numReviews": {
+            "type": "integer",
+            "description": "Total number of reviews for this product",
+            "format": "int32",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the product",
+            "nullable": true
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Date and time when this product information was last updated",
+            "format": "date-time",
+            "nullable": true
+          },
+          "thumbImageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for product information"
+      },
+      "ProductDtoApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductDto"
+              }
+            ],
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDtoArrayApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            },
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDtoListApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            },
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyResponseDto": {
+        "required": [
+          "dislike",
+          "id",
+          "incentivizedReview",
+          "lastUpdated",
+          "like",
+          "problemBenefit",
+          "productId",
+          "productSlug",
+          "published",
+          "recommendations",
+          "reviewSource",
+          "starRating",
+          "user",
+          "userId",
+          "validatedReviewer",
+          "vendorId",
+          "vendorSlug",
+          "verifiedCustomer",
+          "videoReview"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the review on G2",
+            "format": "int32",
+            "nullable": true
+          },
+          "productId": {
+            "type": "integer",
+            "description": "Unique identifier for the product being reviewed",
+            "format": "int32",
+            "nullable": true
+          },
+          "productSlug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the product",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier for the user who wrote the review",
+            "nullable": true
+          },
+          "starRating": {
+            "type": "number",
+            "description": "Star rating given to the product (typically 1-5)",
+            "format": "double",
+            "nullable": true
+          },
+          "like": {
+            "type": "string",
+            "description": "Text describing what the reviewer liked about the product",
+            "nullable": true
+          },
+          "dislike": {
+            "type": "string",
+            "description": "Text describing what the reviewer disliked about the product",
+            "nullable": true
+          },
+          "problemBenefit": {
+            "type": "string",
+            "description": "Text describing the problem solved or benefit gained from using the product",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "string",
+            "description": "Text containing recommendations from the reviewer",
+            "nullable": true
+          },
+          "videoReview": {
+            "type": "boolean",
+            "description": "Indicates whether the review includes a video",
+            "nullable": true
+          },
+          "reviewSource": {
+            "type": "string",
+            "description": "Source of the review (e.g., G2 site, third-party)",
+            "nullable": true
+          },
+          "incentivizedReview": {
+            "type": "boolean",
+            "description": "Indicates whether the reviewer was incentivized to write the review",
+            "nullable": true
+          },
+          "validatedReviewer": {
+            "type": "boolean",
+            "description": "Indicates whether the reviewer has been validated by G2",
+            "nullable": true
+          },
+          "verifiedCustomer": {
+            "type": "boolean",
+            "description": "Indicates whether the reviewer is a verified customer of the product",
+            "nullable": true
+          },
+          "published": {
+            "type": "string",
+            "description": "Date and time when the review was published",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vendorId": {
+            "type": "integer",
+            "description": "Unique identifier for the vendor of the product",
+            "format": "int32",
+            "nullable": true
+          },
+          "vendorSlug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the vendor",
+            "nullable": true
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Date and time when this review information was last updated",
+            "format": "date-time",
+            "nullable": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ],
+            "description": "User information associated with the review",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for review information"
+      },
+      "SurveyResponseDtoListApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyResponseDto"
+            },
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDto": {
+        "required": [
+          "company",
+          "companySize",
+          "id",
+          "lastUpdated",
+          "linkedinUrl",
+          "name",
+          "signUpDate",
+          "title",
+          "twitterUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the user on G2",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the user",
+            "nullable": true
+          },
+          "signUpDate": {
+            "type": "string",
+            "description": "Date when the user signed up on G2",
+            "format": "date-time",
+            "nullable": true
+          },
+          "linkedinUrl": {
+            "type": "string",
+            "description": "URL to the user's LinkedIn profile",
+            "nullable": true
+          },
+          "twitterUrl": {
+            "type": "string",
+            "description": "URL to the user's Twitter profile",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Job title of the user",
+            "nullable": true
+          },
+          "company": {
+            "type": "string",
+            "description": "Company the user works for",
+            "nullable": true
+          },
+          "companySize": {
+            "type": "string",
+            "description": "Size of the company the user works for (e.g., Small, Medium, Enterprise)",
+            "nullable": true
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Date and time when this user information was last updated",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for user information"
+      },
+      "UserDtoApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ],
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserProductDto": {
+        "required": [
+          "productId",
+          "productSlug",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier for the user",
+            "nullable": true
+          },
+          "productId": {
+            "type": "integer",
+            "description": "Unique identifier for the product",
+            "format": "int32",
+            "nullable": true
+          },
+          "productSlug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the product",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for user-product relationship information"
+      },
+      "UserProductDtoListApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserProductDto"
+            },
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VendorAutocompleteResponseDto": {
+        "required": [
+          "id",
+          "name",
+          "numProducts",
+          "slug",
+          "thumbImageUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          },
+          "numProducts": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "thumbImageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VendorDto": {
+        "required": [
+          "averageRating",
+          "description",
+          "foundedYear",
+          "hqLocation",
+          "id",
+          "lastUpdated",
+          "linkedinUrl",
+          "name",
+          "numCategories",
+          "numProducts",
+          "numReviews",
+          "overviewProvidedBy",
+          "ownership",
+          "phone",
+          "revenue",
+          "revenueUnit",
+          "slug",
+          "twitterHandle"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the vendor on G2",
+            "format": "int32",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly unique identifier for the vendor",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the vendor",
+            "nullable": true
+          },
+          "averageRating": {
+            "type": "number",
+            "description": "Average rating of all the vendor's products",
+            "format": "double",
+            "nullable": true
+          },
+          "foundedYear": {
+            "type": "integer",
+            "description": "Year when the vendor was founded",
+            "format": "int32",
+            "nullable": true
+          },
+          "ownership": {
+            "type": "string",
+            "description": "Ownership type of the vendor (e.g., Public, Private)",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the vendor",
+            "nullable": true
+          },
+          "hqLocation": {
+            "type": "string",
+            "description": "Location of the vendor's headquarters",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number for the vendor",
+            "nullable": true
+          },
+          "linkedinUrl": {
+            "type": "string",
+            "description": "URL to the vendor's LinkedIn profile",
+            "nullable": true
+          },
+          "twitterHandle": {
+            "type": "string",
+            "description": "Twitter handle of the vendor",
+            "nullable": true
+          },
+          "overviewProvidedBy": {
+            "type": "string",
+            "description": "Source of the overview information (e.g., G2, Vendor)",
+            "nullable": true
+          },
+          "revenue": {
+            "type": "integer",
+            "description": "Annual revenue of the vendor",
+            "format": "int32",
+            "nullable": true
+          },
+          "revenueUnit": {
+            "type": "string",
+            "description": "Unit of the revenue value (e.g., Million, Billion)",
+            "nullable": true
+          },
+          "numProducts": {
+            "type": "integer",
+            "description": "Total number of products offered by the vendor",
+            "format": "int32",
+            "nullable": true
+          },
+          "numCategories": {
+            "type": "integer",
+            "description": "Number of categories the vendor's products belong to",
+            "format": "int32",
+            "nullable": true
+          },
+          "numReviews": {
+            "type": "integer",
+            "description": "Total number of reviews across all of the vendor's products",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastUpdated": {
+            "type": "string",
+            "description": "Date and time when this vendor information was last updated",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for vendor information"
+      },
+      "VendorDtoApiResponse": {
+        "required": [
+          "statusCode"
+        ],
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "description": "HTTP status code of the response",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VendorDto"
+              }
+            ],
+            "description": "The data returned by the API (null if there was an error)",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message if there was an error (null if the request was successful)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyDev": {
+        "type": "apiKey",
+        "description": "API Key Authentication (For Development/Local)",
+        "name": "X-API-Key",
+        "in": "header"
+      },
+      "RapidApiKey": {
+        "type": "apiKey",
+        "description": "RapidAPI Key",
+        "name": "X-RapidAPI-Key",
+        "in": "header"
+      },
+      "RapidApiHost": {
+        "type": "apiKey",
+        "description": "RapidAPI Host",
+        "name": "X-RapidAPI-Host",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "RapidApiKey": [ ],
+      "RapidApiHost": [ ]
+    }
+  ]
+}
