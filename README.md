@@ -1,4 +1,4 @@
-# G2 Scraper API 🚀
+# G2 Scraper API 🚀 [RapidAPI](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2/pricing)
 
 Access G2 Product, Vendor, Review, and User Data via API
 
